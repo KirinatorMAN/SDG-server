@@ -6,41 +6,51 @@ import java.util.List;
 public class CarInfo {
 
 
-    private Long id;
-    private String url;
+    private long id;
+    private int numbCar;
+    private int speed;
+    private CoordInfo coord;
 
-//    private List lis = new ArrayList<>();
+    public CarInfo() {
 
-
-    public CarInfo(Long id, String url){
-//        lis.add(id);
-//        lis.add(url);
-        this.id=id;
-        this.url=url;
     }
 
-    public Long getId() {
-//        return (Long) lis.get(0);
+    public CarInfo(long id, int numbCar, int speed, CoordInfo coord) {
+        this.numbCar = numbCar;
+        this.speed = speed;
+        this.coord = coord;
+    }
+
+    public long getId() {
         return id;
     }
 
     public void setId(long id) {
-//        this.lis.add(0, id);
-        this.id=id;
+        this.id = id;
     }
 
-    public String getUrl(){
-//        return (String) lis.get(1);
-        return  url;
+    public int getNumbCar() {
+        return numbCar;
     }
 
-    public void setUrl(String url) {
-//        this.lis.add(1,url);
-        this.url=url;
+    public void setNumbCar(int numbCar) {
+        this.numbCar = numbCar;
     }
 
-//    public List getList() {
-//        return lis;
-//    }
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    public CoordInfo getCoord() {
+        return coord;
+    }
+
+    public void setCoord(CoordInfo coord) {
+        this.coord = coord;
+    }
 
 }

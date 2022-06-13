@@ -3,16 +3,14 @@ package com.Generator.server.rest;
 import com.Generator.server.domain.CarInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.Generator.server.domain.CarInfoService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class BlockedSitesController {
@@ -37,8 +35,24 @@ public class BlockedSitesController {
     }
 
     @GetMapping("/")
-    public List<CarInfo> blockedSites() {
+    public Map<Long, Map<String,Object>> blockedSites() {
         return response.readAll();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Map<String,Object>> read(@PathVariable("id") Long id) {
+        Map<String,Object> foundStudent = response.read(id);
+        if (foundStudent == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(foundStudent);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteStudent(@PathVariable Long id) {
+        response.delete(id);
+
+        return ResponseEntity.noContent().build();
+    }
 }
