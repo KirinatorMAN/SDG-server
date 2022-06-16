@@ -1,52 +1,54 @@
 package com.Generator.server.domain;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+
+import static java.util.Map.entry;
 
 @Service
 public class CarInfoService {
 
-    // DB repository mock
-    private Map<Long, CarInfo> repository = Arrays.asList( new CarInfo(1L, "https://telegram.org/")
-//                    new CarInfo[]{
-//                            new CarInfo(1L, "https://telegram.org/"),
-//                            new CarInfo(2L, "https://azure.microsoft.com/"),
-//                            new CarInfo(3L, "https://vk.com/"),
-//                    }
-            ).stream()
-            .collect(Collectors.toConcurrentMap(s -> s.getId(), Function.identity()));
+    private final Map<Long, Map<String, Object>> repository = new HashMap<>();
+    private final AtomicLong sequence = new AtomicLong(0);
 
-    // DB id sequence mock
-    private AtomicLong sequence = new AtomicLong(3);
-
-    public List<CarInfo> readAll() {
-        return repository.values().stream().collect(Collectors.toList());
+    public CarInfoService() {
     }
 
-    public CarInfo read(Long id) {
-        return repository.get(id);
+    public Map<Long, Map<String, Object>> readAll() {
+        return repository;
+    }
+
+    public List<Map<String, Object>> read(int id) {
+        List<Map<String, Object>> map = new ArrayList<>();
+        for (Object o : repository.values()) {
+            if (o instanceof Map) {
+                Map<String, Object> temp = convertObjToMap(o, new TypeReference<>() {
+                });
+                if (temp.get("numbCar").equals(id))
+                    map.add(temp);
+            }
+        }
+        return map;
     }
 
     public CarInfo create(CarInfo request) {
         long key = sequence.incrementAndGet();
         request.setId(key);
-        repository.put(key, request);
+        repository.put(request.getId(), Map.ofEntries(
+                entry("numbCar", request.getNumbCar()),
+                entry("speed", request.getSpeed()),
+                entry("coords", request.getCoord())));
         return request;
     }
-
-    public CarInfo update(Long id, CarInfo student) {
-        student.setId(id);
-        CarInfo oldStudent = repository.replace(id, student);
-        return oldStudent == null ? null : student;
-    }
-
-    public void delete(Long id) {
-        repository.remove(id);
+    public <T> T convertObjToMap(Object o, TypeReference<T> ref) {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.convertValue(o, ref);
     }
 }
