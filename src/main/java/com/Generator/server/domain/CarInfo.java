@@ -1,14 +1,11 @@
 package com.Generator.server.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CarInfo {
 
 
     private long id;
     private int numbCar;
-    private int speed;
+    private float speed;
     private CoordInfo coord;
 
     public CarInfo() {
@@ -37,11 +34,11 @@ public class CarInfo {
         this.numbCar = numbCar;
     }
 
-    public int getSpeed() {
+    public float getSpeed() {
         return speed;
     }
 
-    public void setSpeed(int speed) {
+    public void setSpeed(float speed) {
         this.speed = speed;
     }
 

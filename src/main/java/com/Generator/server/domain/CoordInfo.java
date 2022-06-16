@@ -2,31 +2,41 @@ package com.Generator.server.domain;
 
 public class CoordInfo {
 
-    private float coordX;
-    private float coordY;
+    private float Clat;
+    private float Clong;
+
+    private String orientation = "";
 
     public CoordInfo() {
     }
 
     public CoordInfo(float coordX,float coordY) {
-        this.coordX=coordX;
-        this.coordY=coordY;
+        this.Clat=coordX;
+        this.Clong=coordY;
     }
 
-    public float getCoordX() {
-        return coordX;
+    public float getClat() {
+        return Clat;
     }
 
-    public void setCoordX(float coordX) {
-        this.coordX = coordX;
+    public void setClat(float Clat) {
+        this.Clat = Clat;
     }
 
-    public float getCoordY() {
-        return coordY;
+    public float getClong() {
+        return Clong;
     }
 
-    public void setCoordY(float coordY) {
-        this.coordY = coordY;
+    public void setClong(float Clong) {
+        this.Clong = Clong;
+    }
+
+    public String getOrientation() {
+        return orientation;
+    }
+
+    public void setOrientation(String orientation) {
+        this.orientation = orientation;
     }
 
 }
